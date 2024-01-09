@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, Platform, TouchableOpacity, ScrollView } from 'react-native';
-import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline'
+import { Bars3CenterLeftIcon, FilmIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline'
 import { styles } from '../theme'
 import TrendingMovies from '../components/trendingMovies';
 import MovieList from '../components/movieList';
@@ -57,7 +57,7 @@ export default function HomeScreen() {
             <SafeAreaView className={ios? "mb-2": 'mb-3'}>
                 <StatusBar style='light' />
                 <View className="flex-row justify-between items-center mx-4">
-                    <Bars3CenterLeftIcon size={30} strokeWidth={2} color={"white"} />
+                    <FilmIcon size={30} strokeWidth={2} color={"white"} />
                     <Text 
                         className="text-white text-3xl font-bold">
                             <Text style={styles.text}>123</Text>Movies

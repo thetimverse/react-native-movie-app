@@ -11,8 +11,7 @@ var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == "ios";
 const verticalMargin = ios? '': ' my-3';
 
-export default function ActorScreen() {
-    const {params: item} = useRoute();
+export default function ProfileScreen() {
     const [isFavorite, toggleFavorite] = useState(false);
     const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
@@ -24,7 +23,7 @@ export default function ActorScreen() {
     })
 
     const getAccountDetails = async ()=>{
-        const data = await fetchAccountDetails();
+        const data = fetchAccountDetails();
         setLoading(false);
         console.log('data ', data)
         if(data) setAccountDetails(data);
@@ -55,6 +54,7 @@ export default function ActorScreen() {
                             shadowOpacity: 0.5
                         }}
                     >
+                        {/* l'image de profil, le nom et username n'apparaissent pas et je ne comprends pas pourquoi */}
                         <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-600">
                             <Image 
                                 // source={require('../assets/images/actor.jpg')}
@@ -69,7 +69,7 @@ export default function ActorScreen() {
                             {account?.name} 
                         </Text>
                         <Text className="text-neutral-500 text-base text-center">
-                            {account?.username} 
+                            {account.username} 
                         </Text>
                     </View>
 

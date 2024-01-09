@@ -10,7 +10,9 @@ const currentSeriesEndpoint = `${apiBaseUrl}/tv/on_the_air?api_key=${apiKey}`;
 const topRatedSeriesEndpoint = `${apiBaseUrl}/tv/top_rated?api_key=${apiKey}`;
 const searchEndpoint = `${apiBaseUrl}/search/multi?api_key=${apiKey}`;
 
-const accountDetails = `${apiBaseUrl}/account/20887741`;
+const accountDetails = `${apiBaseUrl}/account/20887741?api_key=${apiKey}`;
+const favoriteMovies = `${apiBaseUrl}/account/20887741/favorite/movies?api_key=${apiKey}`;
+const favoriteShows = `${apiBaseUrl}/account/20887741/favorite/tv?api_key=${apiKey}`;
 
 // dynamic endpoints
 const movieDetailsEndpoint = id=> `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
@@ -110,5 +112,29 @@ export const searchMulti = params => {
 }
 
 export const fetchAccountDetails = () => {
-    return apiCall(accountDetails);
+    const options = {
+        method: 'GET',
+        url: 'https://api.themoviedb.org/3/account/20887741',
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+    };
+    
+    axios
+    .request(options)
+    .then(function (response) {
+        console.log(response.data);
+    })
+    .catch(function (error) {
+        console.error(error);
+    });
+}
+
+
+export const fetchFavoriteMovies = () => {
+    return apiCall(favoriteMovies);
+}
+export const fetchFavoriteTv = () => {
+    return apiCall(favoriteShows);
 }

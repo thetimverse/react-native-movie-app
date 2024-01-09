@@ -63,6 +63,8 @@ export default function SearchScreen() {
                             <View className="flex-row justify-between flex-wrap">
                                 {
                                     results.map((item, index)=>{
+                                        // je n'arrive pas à afficher le titre en fonction du type de média (le champs de titre des films est results.title et des séries results.name), la variable ci dessous fonctionne mais pas quand c'est directement results.title ou results.name sans les quotes
+                                        let title = item.media_type === 'movie' ? `results.title` : `results.name`;
                                         return (
                                             <TouchableWithoutFeedback
                                                 key={index}
@@ -82,12 +84,9 @@ export default function SearchScreen() {
                                                         className="rounded-xl" 
                                                     />
                                                     <Text className="text-neutral-300 ml-1">
-                                                        {/* {
-                                                            results.media_type? == 'tv' && (results.name.length>22? results.name.slice(0,22)+'...': results.name)                          
-                                                        }
                                                         {
-                                                            results.media_type? == 'movie' && (results.title.length>22? results.title.slice(0,22)+'...': results.title)                          
-                                                        } */}
+                                                            title.length>22? title.slice(0,22)+'...': title
+                                                        }
                                                     </Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
