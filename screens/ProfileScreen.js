@@ -5,41 +5,47 @@ import { HeartIcon } from 'react-native-heroicons/solid';
 import { styles, theme } from '../theme';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Loading from '../components/loading';
-import { fallbackActorImage, fetchAccountDetails} from '../api/moviedb';
+import MovieList from '../components/movieList';
+import SeriesList from '../components/seriesList';
+import { avatar, fallbackActorImage, fetchAccountDetails, fetchFavoriteMovies, fetchFavoriteTv, imagew500} from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == "ios";
 const verticalMargin = ios? '': ' my-3';
 
-export default function ActorScreen() {
-    const {params: item} = useRoute();
+export default function ProfileScreen() {
     const [isFavorite, toggleFavorite] = useState(false);
     const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
     const [account, setAccountDetails] = useState({});
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
+    const [favoriteTv, setFavoriteTv] = useState([]);
 
     useEffect(()=> {
         setLoading(true);
         getAccountDetails();
-    })
+        getFavoriteMovies();
+        getFavoriteShows();
+    }, []);
 
     const getAccountDetails = async ()=>{
         const data = await fetchAccountDetails();
-        setLoading(false);
-        console.log('data ', data)
         if(data) setAccountDetails(data);
-    }
+        setLoading(false);
+    };
+    const getFavoriteMovies = async ()=>{
+        const data = await fetchFavoriteMovies();
+        if(data && data.results) setFavoriteMovies(data.results);
+    };
+    const getFavoriteShows = async ()=>{
+        const data = await fetchFavoriteTv();
+        if(data && data.results) setFavoriteTv(data.results);
+    };
 
   return (
     <ScrollView className="flex-1 bg-neutral-900" contentContainerStyle={{paddingBottom: 20}}>
-        {/* back button and heart */}
-        <SafeAreaView className={"z-20 w-full flex-row justify-between items-center px-4"+verticalMargin}>
-            <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.background} className="rounded-xl p-1 ml-4">
-                <ChevronLeftIcon size={28} strokeWidth={2.5} color={'white'} />
-            </TouchableOpacity>
-            <TouchableOpacity className="mr-3" onPress={()=> toggleFavorite(!isFavorite)}>
-                <HeartIcon size={35} color={isFavorite? 'red' : 'white'} />
-            </TouchableOpacity>
+        <SafeAreaView className={"z-20 w-full mb-4 px-4"+verticalMargin}>
+            <Text className="text-white text-3xl text-center font-bold">Profile</Text>
         </SafeAreaView>
 
         {
@@ -55,23 +61,29 @@ export default function ActorScreen() {
                             shadowOpacity: 0.5
                         }}
                     >
-                        <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-600">
+                        {/* l'image de profil, le nom et username n'apparaissent pas et je ne comprends pas pourquoi */}
+                        <View className="items-center rounded-full overflow-hidden h-64 w-64 border-2 border-neutral-600">
                             <Image 
-                                // source={require('../assets/images/actor.jpg')}
-                                source={{uri: account?.avatar || fallbackActorImage}}
-                                style={{height: height*0.43, width: width*0.74}}
+                                source={{uri: avatar(account?.avatar?.tmdb?.avatar_path) || fallbackActorImage}}
+                                style={{height: height*0.3, width: width*0.7}}
                             />
                         </View>
                     </View>
 
-                    <View className="mt-6">
-                        <Text className="text-white text-3xl font-bold text-center">
+                    <View className="my-6">
+                        <Text className="text-white text-2xl font-bold text-center">
                             {account?.name} 
                         </Text>
                         <Text className="text-neutral-500 text-base text-center">
-                            {account?.username} 
+                            {account.username} 
                         </Text>
                     </View>
+
+                    {/* favorite movies */}
+                    <MovieList title="Favorite Movies" hideSeeAll={true} data={favoriteMovies} />
+
+                    {/* favorite shows */}
+                    <SeriesList title="Favorite TV Series" hideSeeAll={true} data={favoriteTv} />
 
                 </View>
             )

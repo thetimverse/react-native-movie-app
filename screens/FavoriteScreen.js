@@ -19,64 +19,73 @@ export default function ActorScreen() {
     const [loading, setLoading] = useState(false);
     const [account, setAccountDetails] = useState({});
 
-    useEffect(()=> {
-        setLoading(true);
-        getAccountDetails();
-    })
+    // useEffect(()=> {
+    //     setLoading(true);
+    //     getAccountDetails();
+    // })
 
-    const getAccountDetails = async ()=>{
-        const data = await fetchAccountDetails();
-        setLoading(false);
-        console.log('data', data);
-        // if(data) setAccountDetails(data);
-    }
+    // const getAccountDetails = async ()=>{
+    //     const data = await fetchAccountDetails();
+    //     setLoading(false);
+    //     console.log('data', data);
+    //     // if(data) setAccountDetails(data);
+    // }
 
   return (
-    <ScrollView className="flex-1 bg-neutral-900" contentContainerStyle={{paddingBottom: 20}}>
-        {/* back button and heart */}
-        <SafeAreaView className={"z-20 w-full flex-row justify-between items-center px-4"+verticalMargin}>
-            <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.background} className="rounded-xl p-1 ml-4">
-                <ChevronLeftIcon size={28} strokeWidth={2.5} color={'white'} />
-            </TouchableOpacity>
-            <TouchableOpacity className="mr-3" onPress={()=> toggleFavorite(!isFavorite)}>
-                <HeartIcon size={35} color={isFavorite? 'red' : 'white'} />
-            </TouchableOpacity>
-        </SafeAreaView>
-
-        {
-            loading? (
-                <Loading />
-            ) : (
-                <View>
-                    <View className="flex-row justify-center"
-                        style={{
-                            shadowColor: 'gray',
-                            shadowRadius: 40,
-                            shadowOffset: {width: 0, height: 10},
-                            shadowOpacity: 0.5
-                        }}
-                    >
-                        <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-600">
-                            <Image 
-                                // source={require('../assets/images/actor.jpg')}
-                                source={{uri: account?.avatar.tmdb.avatar_path || fallbackActorImage}}
-                                style={{height: height*0.43, width: width*0.74}}
-                            />
-                        </View>
+    <SafeAreaView className="bg-neutral-800 flex-1">
+    {
+        loading? (
+            <Loading />
+        ) :
+        results.length>0? (
+                <ScrollView 
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{paddingHorizontal: 15}}
+                    className="space-y-3"
+                >
+                    <Text className="text-white text-lg font-semibold ml-1">Favorites</Text>
+                    <View className="flex-row justify-between flex-wrap">
+                        {
+                            results.map((item, index)=>{
+                                let title = item.media_type === 'movie' ? `results.title` : `results.name`;
+                                return (
+                                    <TouchableWithoutFeedback
+                                        key={index}
+                                        onPress={()=> {
+                                            let destination = item.media_type === 'movie' ? 'Movie' : 'Shows';
+                                            navigation.navigate(destination, item)
+                                        }}
+                                    >
+                                        <View className="space-y-2 mb-4">
+                                            <Image 
+                                                // source={require('../assets/images/poster2.jpeg')} 
+                                                source={{uri: imagew500(item.poster_path)}} 
+                                                style={{
+                                                    width: width * 0.44,
+                                                    height: height * 0.3
+                                                }}
+                                                className="rounded-xl" 
+                                            />
+                                            <Text className="text-neutral-300 ml-1">
+                                                {
+                                                    title.length>22? title.slice(0,22)+'...': title
+                                                }
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )
+                            })
+                        }
                     </View>
-
-                    <View className="mt-6">
-                        <Text className="text-white text-3xl font-bold text-center">
-                            {account?.name}
-                        </Text>
-                        <Text className="text-neutral-500 text-base text-center">
-                            {account?.username}
-                        </Text>
-                    </View>
-
+                </ScrollView>
+            ):(
+                <View className="flex-column justify-center items-center">
+                    <Image source={require('../assets/images/clapperboard.png')}
+                        className="h-60 w-60 mt-24" />
+                    <Text className="text-neutral-400 text-lg mt-3">Looking for something?</Text>
                 </View>
             )
-        }
-    </ScrollView>
+    }
+    </SafeAreaView>
   )
 }

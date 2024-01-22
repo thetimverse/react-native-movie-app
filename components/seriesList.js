@@ -15,7 +15,12 @@ export default function seriesList({title, data, hideSeeAll}) {
                 <Text className="text-white text-xl">{title}</Text>
                 {
                     !hideSeeAll && (
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={
+                            ()=> {
+                                navigation.navigate('AllShows')
+                            }}
+                        >
                             <Text style={styles.text} className="text-lg">See All</Text>
                         </TouchableOpacity>
                     )

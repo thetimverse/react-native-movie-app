@@ -13,6 +13,8 @@ import MovieScreen from '../screens/MovieScreen';
 import ShowScreen from '../screens/ShowScreen';
 import ActorScreen from '../screens/ActorScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AllMoviesScreen from '../screens/AllMoviesScreen';
+import AllShowsScreen from '../screens/AllShowsScreen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -21,7 +23,9 @@ function HomeStackScreen() {
     <HomeStack.Navigator>
         <HomeStack.Screen name="Home"  options={{headerShown: false}} component={HomeScreen} />
         <HomeStack.Screen name="Movie" options={{headerShown: false}} component={MovieScreen} />
+        <HomeStack.Screen name="AllMovies" options={{headerShown: false}} component={AllMoviesScreen} />
         <HomeStack.Screen name="Shows" options={{headerShown: false}} component={ShowScreen} />
+        <HomeStack.Screen name="AllShows" options={{headerShown: false}} component={AllShowsScreen} />
         <HomeStack.Screen name="Actor" options={{headerShown: false}} component={ActorScreen} />
     </HomeStack.Navigator>
   );
@@ -37,10 +41,8 @@ export default function Navigation() {
             tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
         
-                    if (route.name === 'Home') {
-                      iconName = focused
-                        ? 'home'
-                        : 'home';
+                    if (route.name === 'HomeScreen') {
+                      iconName = focused ? 'home' : 'home';
                     } else if (route.name === 'Favorite') {
                       iconName = focused ? 'ios-heart' : 'ios-heart';
                     } else if (route.name === 'Search') {
@@ -52,8 +54,10 @@ export default function Navigation() {
                     // You can return any component that you like here!
                     return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: 'tomato',
+            tabBarActiveTintColor: '#eab308',
             tabBarInactiveTintColor: 'gray',
+            tabBarShowLabel: false,
+            tabBarStyle: { backgroundColor: '#171717', borderTopColor:'#171717'}
             })}
       >
         <Tab.Screen name="HomeScreen"  options={{headerShown: false}} component={HomeStackScreen} />
