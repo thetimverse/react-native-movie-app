@@ -9,10 +9,12 @@ const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}`
 const currentSeriesEndpoint = `${apiBaseUrl}/tv/on_the_air?api_key=${apiKey}`;
 const topRatedSeriesEndpoint = `${apiBaseUrl}/tv/top_rated?api_key=${apiKey}`;
 const searchEndpoint = `${apiBaseUrl}/search/multi?api_key=${apiKey}`;
+const searchPersonEndpoint = `${apiBaseUrl}/search/person?api_key=${apiKey}`;
 
 const accountDetails = `${apiBaseUrl}/account/20887741?api_key=${apiKey}`;
 const favoriteMovies = `${apiBaseUrl}/account/20887741/favorite/movies?api_key=${apiKey}`;
 const favoriteShows = `${apiBaseUrl}/account/20887741/favorite/tv?api_key=${apiKey}`;
+const userLists = `${apiBaseUrl}/account/20887741/lists?api_key=${apiKey}`;
 
 // dynamic endpoints
 const movieDetailsEndpoint = id=> `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
@@ -30,6 +32,7 @@ const actorTvCreditsEndpoint = id=> `${apiBaseUrl}/person/${id}/tv_credits?api_k
 export const imagew500 = path=> path? `https://image.tmdb.org/t/p/w500${path}` : null;
 export const imagew342 = path=> path? `https://image.tmdb.org/t/p/w342${path}` : null;
 export const imagew185 = path=> path? `https://image.tmdb.org/t/p/w185${path}` : null;
+export const avatar = path=> path? `https://image.tmdb.org/t/p/w300_and_h300_face${path}` : null;
 
 export const fallbackPoster = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-r_cd2YunvZ5iqRYvb4QJ312hlRGqDNnTRmLVuxRw7CDnH1yQLf6dKrCdJ-9dCrwukHI&usqp=CAU';
 export const fallbackActorImage = 'https://t4.ftcdn.net/jpg/02/17/34/67/360_F_217346782_7XpCTt8bLNJqvVAaDZJwvZjm0epQmj6j.jpg';
@@ -110,31 +113,22 @@ export const fetchActorTvCredits = id => {
 export const searchMulti = params => {
     return apiCall(searchEndpoint, params);
 }
-
-export const fetchAccountDetails = () => {
-    const options = {
-        method: 'GET',
-        url: 'https://api.themoviedb.org/3/account/20887741',
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-    };
-    
-    axios
-    .request(options)
-    .then(function (response) {
-        console.log(response.data);
-    })
-    .catch(function (error) {
-        console.error(error);
-    });
+export const searchPerson = params => {
+    return apiCall(searchPersonEndpoint, params);
 }
 
+
+// Account
+export const fetchAccountDetails = () => {
+    return apiCall(accountDetails);
+}
 
 export const fetchFavoriteMovies = () => {
     return apiCall(favoriteMovies);
 }
 export const fetchFavoriteTv = () => {
     return apiCall(favoriteShows);
+}
+export const fetchUserLists = () => {
+    return apiCall(userLists);
 }

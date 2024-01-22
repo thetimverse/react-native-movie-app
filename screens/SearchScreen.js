@@ -1,10 +1,12 @@
 import { View, Text, Dimensions, SafeAreaView, TextInput, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Image } from 'react-native'
 import React, { useCallback, useState } from 'react'
-import { XMarkIcon } from 'react-native-heroicons/outline';
+import { FilmIcon, XMarkIcon } from 'react-native-heroicons/outline';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../components/loading';
 import {debounce} from 'lodash';
 import { imagew500, searchMulti } from '../api/moviedb';
+import { styles } from '../theme';
+import { UserCircleIcon } from 'react-native-heroicons/solid';
 
 const {width, height} = Dimensions.get('window');
 
@@ -34,7 +36,7 @@ export default function SearchScreen() {
     return (
         <SafeAreaView className="bg-neutral-800 flex-1">
             {/* search bar */}
-            <View className="mx-4 mb-3 flex-row justify-between items-center border border-neutral-500 rounded-full">
+            <View className="mx-4 flex-row justify-between items-center border border-neutral-500 rounded-full">
                 <TextInput 
                     onChangeText={handleTextDebounce}
                     placeholder='Search'
@@ -48,6 +50,15 @@ export default function SearchScreen() {
                     <XMarkIcon size={22} color={'white'} />
                 </TouchableOpacity>
             </View>
+            {/* filtres de recherche, NON FONCTIONNEL */}
+            {/* <View className="mx-auto mb-3 flex-row justify-evenly items-center rounded-xl w-4/5" style={styles.background}>
+                <TouchableOpacity className="py-3 px-10">
+                    <FilmIcon size={22} color={'black'} className="active: bg-yellow-500"/>
+                </TouchableOpacity>
+                <TouchableOpacity className="py-3 px-6">
+                    <UserCircleIcon size={22} color={'black'} className="active: bg-yellow-500"/>
+                </TouchableOpacity>
+            </View> */}
             {/* results */}
             {
                 loading? (
@@ -63,8 +74,14 @@ export default function SearchScreen() {
                             <View className="flex-row justify-between flex-wrap">
                                 {
                                     results.map((item, index)=>{
-                                        // je n'arrive pas à afficher le titre en fonction du type de média (le champs de titre des films est results.title et des séries results.name), la variable ci dessous fonctionne mais pas quand c'est directement results.title ou results.name sans les quotes
-                                        let title = item.media_type === 'movie' ? `results.title` : `results.name`;
+                                        const getTitle = (item) => {
+                                            switch (item.media_type) {
+                                                case 'tv':
+                                                    return item.name.length>22? item.name.slice(0,22)+'...': item.name;
+                                                case 'movie':
+                                                    return item.title.length>22? item.title.slice(0,22)+'...': item.title;
+                                            }
+                                        };
                                         return (
                                             <TouchableWithoutFeedback
                                                 key={index}
@@ -85,7 +102,7 @@ export default function SearchScreen() {
                                                     />
                                                     <Text className="text-neutral-300 ml-1">
                                                         {
-                                                            title.length>22? title.slice(0,22)+'...': title
+                                                            getTitle(item)
                                                         }
                                                     </Text>
                                                 </View>
@@ -98,7 +115,7 @@ export default function SearchScreen() {
                     ):(
                         <View className="flex-column justify-center items-center">
                             <Image source={require('../assets/images/clapperboard.png')}
-                                className="h-60 w-60 mt-24" />
+                                className="h-60 w-60 mt-32" />
                             <Text className="text-neutral-400 text-lg mt-3">Looking for something?</Text>
                         </View>
                     )

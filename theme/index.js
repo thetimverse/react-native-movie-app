@@ -1,5 +1,5 @@
 export const theme = {
-    background: '#14b8a6', // teal
+    background: '#eab308', 
     text: '#eab308'
 }
 export const styles = {

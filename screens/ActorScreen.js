@@ -44,6 +44,15 @@ export default function ActorScreen() {
         if(data && data.cast) setActorSeries(data.cast);
     }
 
+    const storeData = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value);
+          await AsyncStorage.setItem('my-key', jsonValue);
+        } catch (e) {
+          console.log('error: ', e)
+        }
+      };
+
   return (
     <ScrollView className="flex-1 bg-neutral-900" contentContainerStyle={{paddingBottom: 20}}>
         {/* back button and heart */}
