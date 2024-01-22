@@ -14,7 +14,6 @@ import ShowScreen from '../screens/ShowScreen';
 import ActorScreen from '../screens/ActorScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AllMoviesScreen from '../screens/AllMoviesScreen';
-import AllShowsScreen from '../screens/AllShowsScreen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -25,7 +24,6 @@ function HomeStackScreen() {
         <HomeStack.Screen name="Movie" options={{headerShown: false}} component={MovieScreen} />
         <HomeStack.Screen name="AllMovies" options={{headerShown: false}} component={AllMoviesScreen} />
         <HomeStack.Screen name="Shows" options={{headerShown: false}} component={ShowScreen} />
-        <HomeStack.Screen name="AllShows" options={{headerShown: false}} component={AllShowsScreen} />
         <HomeStack.Screen name="Actor" options={{headerShown: false}} component={ActorScreen} />
     </HomeStack.Navigator>
   );

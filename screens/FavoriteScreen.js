@@ -10,26 +10,25 @@ import dayjs from "dayjs";
 
 var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == "ios";
-const verticalMargin = ios? '': ' my-3';
 
-export default function ActorScreen() {
+export default function FavoriteScreen() {
     const {params: item} = useRoute();
-    const [isFavorite, toggleFavorite] = useState(false);
     const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
-    const [account, setAccountDetails] = useState({});
 
-    // useEffect(()=> {
-    //     setLoading(true);
-    //     getAccountDetails();
-    // })
+    useEffect(()=> {
+        setLoading(true);
+        getFavorites();
+    }, []);
 
-    // const getAccountDetails = async ()=>{
-    //     const data = await fetchAccountDetails();
-    //     setLoading(false);
-    //     console.log('data', data);
-    //     // if(data) setAccountDetails(data);
-    // }
+    const getFavorites = async () => {
+        try {
+          const favorites = await AsyncStorage.getItem('favorite')
+          return favorites != null ? JSON.parse(favorites) : null
+        } catch(e) {
+          console.log(e);
+        }
+    }
 
   return (
     <SafeAreaView className="bg-neutral-800 flex-1">
@@ -37,7 +36,7 @@ export default function ActorScreen() {
         loading? (
             <Loading />
         ) :
-        results.length>0? (
+        favorites.length>0 (
                 <ScrollView 
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{paddingHorizontal: 15}}
@@ -46,7 +45,7 @@ export default function ActorScreen() {
                     <Text className="text-white text-lg font-semibold ml-1">Favorites</Text>
                     <View className="flex-row justify-between flex-wrap">
                         {
-                            results.map((item, index)=>{
+                            favorites.map((item, index)=>{
                                 let title = item.media_type === 'movie' ? `results.title` : `results.name`;
                                 return (
                                     <TouchableWithoutFeedback
@@ -78,12 +77,6 @@ export default function ActorScreen() {
                         }
                     </View>
                 </ScrollView>
-            ):(
-                <View className="flex-column justify-center items-center">
-                    <Image source={require('../assets/images/clapperboard.png')}
-                        className="h-60 w-60 mt-24" />
-                    <Text className="text-neutral-400 text-lg mt-3">Looking for something?</Text>
-                </View>
             )
     }
     </SafeAreaView>

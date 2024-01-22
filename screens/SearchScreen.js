@@ -47,18 +47,9 @@ export default function SearchScreen() {
                     onPress={()=> navigation.goBack()}
                     className="rounded-full p-1 m-1 bg-neutral-500"
                 >
-                    <XMarkIcon size={22} color={'white'} />
+                    <XMarkIcon size={26} color={'white'} />
                 </TouchableOpacity>
             </View>
-            {/* filtres de recherche, NON FONCTIONNEL */}
-            {/* <View className="mx-auto mb-3 flex-row justify-evenly items-center rounded-xl w-4/5" style={styles.background}>
-                <TouchableOpacity className="py-3 px-10">
-                    <FilmIcon size={22} color={'black'} className="active: bg-yellow-500"/>
-                </TouchableOpacity>
-                <TouchableOpacity className="py-3 px-6">
-                    <UserCircleIcon size={22} color={'black'} className="active: bg-yellow-500"/>
-                </TouchableOpacity>
-            </View> */}
             {/* results */}
             {
                 loading? (
@@ -70,7 +61,7 @@ export default function SearchScreen() {
                             contentContainerStyle={{paddingHorizontal: 15}}
                             className="space-y-3"
                         >
-                            <Text className="text-white font-semibold ml-1">Results ({results.length})</Text>
+                            <Text className="text-white font-semibold ml-2 mt-4">Results ({results.length})</Text>
                             <View className="flex-row justify-between flex-wrap">
                                 {
                                     results.map((item, index)=>{

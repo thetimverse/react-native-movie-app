@@ -44,10 +44,13 @@ export default function ActorScreen() {
         if(data && data.cast) setActorSeries(data.cast);
     }
 
-    const storeData = async (value) => {
+    // async storage
+    // set les favorites À FAIRE
+    const setFavorite = async (isFavorite) => {
         try {
-          const jsonValue = JSON.stringify(value);
-          await AsyncStorage.setItem('my-key', jsonValue);
+            const isFavorite = true;
+            const favorite = JSON.stringify(isFavorite);
+            await AsyncStorage.setItem('favorite', favorite);
         } catch (e) {
           console.log('error: ', e)
         }
@@ -78,11 +81,11 @@ export default function ActorScreen() {
                             shadowOpacity: 0.5
                         }}
                     >
-                        <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-600">
+                        <View className="items-center rounded-full overflow-hidden h-64 w-64 border-2 border-neutral-600">
                             <Image 
                                 // source={require('../assets/images/actor.jpg')}
                                 source={{uri: imagew500(actor?.profile_path) || fallbackActorImage}}
-                                style={{height: height*0.43, width: width*0.74}}
+                                style={{height: height*0.3, width: width*0.65}}
                             />
                         </View>
                     </View>

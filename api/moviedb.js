@@ -117,6 +117,10 @@ export const searchPerson = params => {
     return apiCall(searchPersonEndpoint, params);
 }
 
+// pagination
+export const fetchAllUpcomingMovies = params => {
+    return apiCall(upcomingMoviesEndpoint, params);
+}
 
 // Account
 export const fetchAccountDetails = () => {

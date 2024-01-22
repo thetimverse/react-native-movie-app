@@ -83,13 +83,13 @@ export default function HomeScreen() {
                         <MovieList title="Upcoming Movies" data={upcoming} />
         
                         {/* top rated movies */}
-                        <MovieList title="Top Rated Movies" data={topRated} />
+                        <MovieList title="Top Rated Movies" hideSeeAll={true} data={topRated} />
 
                         {/* airing soon movies */}
-                        <SeriesList title="TV Airing Soon" data={airingSoon} />
+                        <SeriesList title="TV Airing Soon" hideSeeAll={true} data={airingSoon} />
 
                         {/* top rated movies */}
-                        <SeriesList title="Top Rated TV" data={topRatedSeries} />
+                        <SeriesList title="Top Rated TV" hideSeeAll={true} data={topRatedSeries} />
                     </ScrollView>
                 )
             }
