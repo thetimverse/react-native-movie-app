@@ -1,11 +1,11 @@
 import { View, Text, Dimensions, Image, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { fallbackPoster, imagew185, imagew500 } from '../api/moviedb';
+import { fallbackPoster, imagew500 } from '../api/moviedb';
 
 const {width, height} = Dimensions.get('window');
 
-export default function MovieCard({item, index, data}) {
+export default function MovieCard({item, index}) {
     const navigation = useNavigation();
 
   return (

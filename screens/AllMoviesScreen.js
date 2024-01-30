@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Image, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { styles } from '../theme'
 import { useNavigation } from '@react-navigation/native';
-import { fallbackPoster, fetchAllUpcomingMovies, fetchUpcomingMovies, imagew342 } from '../api/moviedb';
+import { fetchAllUpcomingMovies } from '../api/moviedb';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Loading from '../components/loading';
 import MovieCard from '../components/MovieCard';

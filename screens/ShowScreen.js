@@ -1,15 +1,14 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, Linking, Platform, Pressable, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
-import { HeartIcon } from 'react-native-heroicons/solid';
+import { HeartIcon, PlayIcon } from 'react-native-heroicons/solid';
 import { styles, theme } from '../theme';
 import Cast from '../components/cast';
 import SeriesList from '../components/seriesList';
 import Loading from '../components/loading';
-import { fallbackPoster, fetchMovieCredits, fetchMovieDetails, fetchSeriesCredits, fetchSeriesDetails, fetchSimilarMovies, fetchSimilarSeries, imagew500 } from '../api/moviedb';
-import useFavorites from '../assets/useFavorites';
+import { fallbackPoster, fetchSeriesCredits, fetchSeriesDetails, fetchSeriesVideo, fetchSimilarSeries, imagew500 } from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == "ios";
@@ -19,16 +18,18 @@ export default function ShowScreen() {
     const {params: item} = useRoute();
     const navigation = useNavigation();
     const [cast, setCast] = useState([]);
+    const [trailer, setTrailer] = useState([]);
     const [similarSeries, setSimilarSeries] = useState([]);
     const [loading, setLoading] = useState(false);
     const [series, setSeries] = useState({});
-    const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+    const [isFavorite, toggleFavorite] = useState(false);
 
     useEffect(()=> {
         setLoading(true);
         getSeriesDetails(item.id);
         getSeriesCredits(item.id);
         getSimilarSeries(item.id);
+        getShowTrailer(item.id);
     }, [item])
 
     const getSeriesDetails = async id=>{
@@ -39,6 +40,13 @@ export default function ShowScreen() {
     const getSeriesCredits = async id=>{
         const data = await fetchSeriesCredits(id);
         if(data && data.cast) setCast(data.cast);
+    }
+    const getShowTrailer = async id=>{
+        const data = await fetchSeriesVideo(id);
+        const firstTrailer = data.results.find((video) => video.type === 'Trailer');
+        // console.log(data);
+        // console.log('trailer', firstTrailer);
+        setTrailer(firstTrailer ? firstTrailer.key : '');
     }
     const getSimilarSeries = async id=>{
         const data = await fetchSimilarSeries(id);
@@ -56,8 +64,8 @@ export default function ShowScreen() {
                     <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.background} className="rounded-xl p-1 ml-4">
                         <ChevronLeftIcon size={28} strokeWidth={2.5} color={'white'} />
                     </TouchableOpacity>
-                    <TouchableOpacity className="mr-3" onPress={()=> (isFavorite(item.id) ? removeFavorite(item.id) : addFavorite(item.id))}>
-                        <HeartIcon size={35} color={isFavorite(item.id) ? theme.background : 'white'} />
+                    <TouchableOpacity className="mr-3 opacity-0" onPress={()=> toggleFavorite(!isFavorite)}>
+                        <HeartIcon size={35} color={isFavorite? theme.background : 'white'} />
                     </TouchableOpacity>
                 </SafeAreaView>
                 {
@@ -101,7 +109,7 @@ export default function ShowScreen() {
                     ):null
                 }
                 {/* genres */}
-                <View className="flex-row justify-center mx-4">
+                <View className="flex-row justify-center flex-wrap mx-4 w-11/12">
                     {
                         series?.genres?.map((genre, index)=>{
                             let showDot = index+1 != series.genres.length;
@@ -119,9 +127,8 @@ export default function ShowScreen() {
                         series?.overview
                     }
                 </Text>
-
                 {/* score */}
-                <Text className="text-neutral-400 mx-4 text-base my-2">
+                <Text className="text-neutral-400 mx-4 text-base mt-2">
                     User Score:&nbsp; 
                     <Text className="text-lg font-bold" style={styles.text}>
                         { (series?.vote_average*10).toFixed(0) }
@@ -129,6 +136,19 @@ export default function ShowScreen() {
                     <Text className="">%&nbsp;</Text> 
                     <Text className="text-neutral-500 text-base">({ series?.vote_count } votes)</Text> 
                 </Text>
+                <View className="flex justify-center flex-row">
+                    {trailer && (
+                        <Pressable
+                        onPress={() => {
+                            Linking.openURL(`https://www.youtube.com/watch?v=${trailer}`);
+                        }}
+                        className="px-3 py-1 bg-slate-700 flex flex-row items-start justify-center gap-1 w-1/3 my-2 rounded-lg"
+                        >
+                            <PlayIcon size={15} color="#fff" />
+                            <Text className="text-neutral-100 uppercase font-medium tracking-wider mb-1 mr-1">Trailer</Text>
+                        </Pressable>
+                    )}
+                </View>
 
                 {/* other details */}
                 <View className="mx-3 py-4 px-2 mt-6 flex-row justify-evenly justify-items-center items-center bg-neutral-700 rounded-lg">
