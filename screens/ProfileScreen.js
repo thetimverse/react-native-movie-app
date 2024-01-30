@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Image, Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { ChevronLeftIcon } from 'react-native-heroicons/outline';
-import { HeartIcon } from 'react-native-heroicons/solid';
-import { styles, theme } from '../theme';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import Loading from '../components/loading';
 import MovieList from '../components/movieList';
 import SeriesList from '../components/seriesList';
-import { avatar, fallbackActorImage, fetchAccountDetails, fetchFavoriteMovies, fetchFavoriteTv, imagew500} from '../api/moviedb';
+import { fallbackActorImage, fetchAccountDetails, fetchFavoriteMovies, fetchFavoriteTv, imagew500} from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == "ios";
 const verticalMargin = ios? '': ' my-3';
 
 export default function ProfileScreen() {
-    const [isFavorite, toggleFavorite] = useState(false);
-    const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
     const [account, setAccountDetails] = useState({});
     const [favoriteMovies, setFavoriteMovies] = useState([]);
@@ -61,10 +55,9 @@ export default function ProfileScreen() {
                             shadowOpacity: 0.5
                         }}
                     >
-                        {/* l'image de profil, le nom et username n'apparaissent pas et je ne comprends pas pourquoi */}
                         <View className="items-center rounded-full overflow-hidden h-64 w-64 border-2 border-neutral-600">
                             <Image 
-                                source={{uri: avatar(account?.avatar?.tmdb?.avatar_path) || fallbackActorImage}}
+                                source={{uri: imagew500(account?.avatar?.tmdb?.avatar_path) || fallbackActorImage}}
                                 style={{height: height*0.3, width: width*0.7}}
                             />
                         </View>

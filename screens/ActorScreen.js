@@ -44,18 +44,6 @@ export default function ActorScreen() {
         if(data && data.cast) setActorSeries(data.cast);
     }
 
-    // async storage
-    // set les favorites À FAIRE
-    const setFavorite = async (isFavorite) => {
-        try {
-            const isFavorite = true;
-            const favorite = JSON.stringify(isFavorite);
-            await AsyncStorage.setItem('favorite', favorite);
-        } catch (e) {
-          console.log('error: ', e)
-        }
-      };
-
   return (
     <ScrollView className="flex-1 bg-neutral-900" contentContainerStyle={{paddingBottom: 20}}>
         {/* back button and heart */}
@@ -63,7 +51,7 @@ export default function ActorScreen() {
             <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.background} className="rounded-xl p-1 ml-4">
                 <ChevronLeftIcon size={28} strokeWidth={2.5} color={'white'} />
             </TouchableOpacity>
-            <TouchableOpacity className="mr-3" onPress={()=> toggleFavorite(!isFavorite)}>
+            <TouchableOpacity className="mr-3 opacity-0" onPress={()=> toggleFavorite(!isFavorite)}>
                 <HeartIcon size={35} color={isFavorite? 'red' : 'white'} />
             </TouchableOpacity>
         </SafeAreaView>
@@ -83,7 +71,6 @@ export default function ActorScreen() {
                     >
                         <View className="items-center rounded-full overflow-hidden h-64 w-64 border-2 border-neutral-600">
                             <Image 
-                                // source={require('../assets/images/actor.jpg')}
                                 source={{uri: imagew500(actor?.profile_path) || fallbackActorImage}}
                                 style={{height: height*0.3, width: width*0.65}}
                             />
@@ -139,7 +126,7 @@ export default function ActorScreen() {
                     </View>
 
                     <Text className="text-white text-2xl mx-4 mb-2">
-                            Filmography
+                        Filmography
                     </Text>
                     {/* movies */}
                     <MovieList title={"Movies"} hideSeeAll={true} data={actorMovies}/>

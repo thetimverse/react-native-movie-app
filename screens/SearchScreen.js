@@ -1,12 +1,10 @@
 import { View, Text, Dimensions, SafeAreaView, TextInput, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Image } from 'react-native'
 import React, { useCallback, useState } from 'react'
-import { FilmIcon, XMarkIcon } from 'react-native-heroicons/outline';
+import { XMarkIcon } from 'react-native-heroicons/outline';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../components/loading';
 import {debounce} from 'lodash';
 import { imagew500, searchMulti } from '../api/moviedb';
-import { styles } from '../theme';
-import { UserCircleIcon } from 'react-native-heroicons/solid';
 
 const {width, height} = Dimensions.get('window');
 
@@ -83,7 +81,6 @@ export default function SearchScreen() {
                                             >
                                                 <View className="space-y-2 mb-4">
                                                     <Image 
-                                                        // source={require('../assets/images/poster2.jpeg')} 
                                                         source={{uri: imagew500(item.poster_path)}} 
                                                         style={{
                                                             width: width * 0.44,

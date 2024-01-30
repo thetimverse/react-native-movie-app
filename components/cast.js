@@ -3,8 +3,6 @@ import React from 'react'
 import { fallbackActorImage, imagew185 } from '../api/moviedb';
 
 export default function Cast({cast, navigation}) {
-    let actorName = "Chloe Bennet";
-    let characterName = "Daisy Johnson";
   return (
     <View className="my-6">
       <Text className="text-white text-lg mx-4 mb-5">Cast</Text>

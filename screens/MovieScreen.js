@@ -76,7 +76,6 @@ export default function MovieScreen() {
                     ) : (
                         <View>
                             <Image
-                                // source={require('../assets/images/poster2.jpeg')}
                                 source={{uri: imagew500(movie?.poster_path) || fallbackPoster}}
                                 style={{width, height: height*0.55}}
                             />
