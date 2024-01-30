@@ -1,11 +1,17 @@
-# Movie App in React Native
+Movie App in React Native
+========================
 
 ## Install
-Clone or download zip then
-`npm install`
+Clone or download zip then run
+```bash
+$ git clone https://github.com/thetimverse/react-native-movie-app.git my_project
+$ cd my_project/
+$ npm install
+```
 To start the server on Expo
-`npx expo start`
+```bash
+$ npx expo start
+```
 
 ## Current issues 
-- AllMoviesScreen (needs to show a flatlist of all movies (either upcoming or top rated)) doesn't work, I don't understand renderItem (*line 22*)
-- FavoriteScreen with AsyncStorage and AllShows (AllMovies but with shows) not done yet 
+- FavoriteScreen with AsyncStorage

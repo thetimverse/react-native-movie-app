@@ -44,7 +44,7 @@ export default function seriesList({title, data, hideSeeAll}) {
                                 <View className="space-y-1 mr-4">
                                     <Image 
                                         source={{uri: imagew342(item.poster_path) || fallbackPoster}} 
-                                        className="rounded-xl"
+                                        className="rounded-md"
                                         style={{
                                             width: width * 0.33,
                                             height: height * 0.22

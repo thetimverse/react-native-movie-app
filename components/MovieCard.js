@@ -23,7 +23,7 @@ export default function MovieCard({item, index, data}) {
                     width: width * 0.44,
                     height: height * 0.3
                 }}
-                className="rounded-xl" 
+                className="rounded-md" 
             />
             <Text className="text-neutral-300 ml-1">
             {

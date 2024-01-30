@@ -9,6 +9,7 @@ import Cast from '../components/cast';
 import SeriesList from '../components/seriesList';
 import Loading from '../components/loading';
 import { fallbackPoster, fetchMovieCredits, fetchMovieDetails, fetchSeriesCredits, fetchSeriesDetails, fetchSimilarMovies, fetchSimilarSeries, imagew500 } from '../api/moviedb';
+import useFavorites from '../assets/useFavorites';
 
 var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == "ios";
@@ -16,12 +17,12 @@ const topMargin = ios? '': ' mt-3';
 
 export default function ShowScreen() {
     const {params: item} = useRoute();
-    const [isFavorite, toggleFavorite] = useState(false);
     const navigation = useNavigation();
     const [cast, setCast] = useState([]);
     const [similarSeries, setSimilarSeries] = useState([]);
     const [loading, setLoading] = useState(false);
     const [series, setSeries] = useState({});
+    const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
     useEffect(()=> {
         setLoading(true);
@@ -55,8 +56,8 @@ export default function ShowScreen() {
                     <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.background} className="rounded-xl p-1 ml-4">
                         <ChevronLeftIcon size={28} strokeWidth={2.5} color={'white'} />
                     </TouchableOpacity>
-                    <TouchableOpacity className="mr-3" onPress={()=> toggleFavorite(!isFavorite)}>
-                        <HeartIcon size={35} color={isFavorite? theme.background : 'white'} />
+                    <TouchableOpacity className="mr-3" onPress={()=> (isFavorite(item.id) ? removeFavorite(item.id) : addFavorite(item.id))}>
+                        <HeartIcon size={35} color={isFavorite(item.id) ? theme.background : 'white'} />
                     </TouchableOpacity>
                 </SafeAreaView>
                 {

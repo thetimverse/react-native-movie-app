@@ -59,7 +59,7 @@ export default function Navigation() {
             })}
       >
         <Tab.Screen name="HomeScreen"  options={{headerShown: false}} component={HomeStackScreen} />
-        <Tab.Screen name="Favorite"  options={{headerShown: false}} component={FavoriteScreen} />
+        <Tab.Screen name="Favorite"  options={{headerShown: false, unmountonblur: true,}} component={FavoriteScreen} />
         <Tab.Screen name="Search"  options={{headerShown: false}} component={SearchScreen} />
         <Tab.Screen name="Profile"  options={{headerShown: false}} component={ProfileScreen} />
       </Tab.Navigator>

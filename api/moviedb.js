@@ -19,9 +19,11 @@ const userLists = `${apiBaseUrl}/account/20887741/lists?api_key=${apiKey}`;
 // dynamic endpoints
 const movieDetailsEndpoint = id=> `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
 const movieCreditsEndpoint = id=> `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
+const movieVideoEndpoint = id=> `${apiBaseUrl}/movie/${id}/videos?api_key=${apiKey}`;
 const similarMoviesEndpoint = id=> `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
 const seriesDetailsEndpoint = id=> `${apiBaseUrl}/tv/${id}?api_key=${apiKey}`;
 const seriesCreditsEndpoint = id=> `${apiBaseUrl}/tv/${id}/credits?api_key=${apiKey}`;
+const seriesVideoEndpoint = id=> `${apiBaseUrl}/tv/${id}/videos?api_key=${apiKey}`;
 const similarSeriesEndpoint = id=> `${apiBaseUrl}/tv/${id}/similar?api_key=${apiKey}`;
 
 
@@ -81,6 +83,9 @@ export const fetchMovieDetails = id => {
 export const fetchMovieCredits = id => {
     return apiCall(movieCreditsEndpoint(id));
 }
+export const fetchMovieVideo = id => {
+    return apiCall(movieVideoEndpoint(id));
+}
 export const fetchSimilarMovies = id => {
     return apiCall(similarMoviesEndpoint(id));
 }
@@ -92,6 +97,9 @@ export const fetchSeriesDetails = id => {
 }
 export const fetchSeriesCredits = id => {
     return apiCall(seriesCreditsEndpoint(id));
+}
+export const fetchSeriesVideo = id => {
+    return apiCall(seriesVideoEndpoint(id));
 }
 export const fetchSimilarSeries = id => {
     return apiCall(similarSeriesEndpoint(id));
